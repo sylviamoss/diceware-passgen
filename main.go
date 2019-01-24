@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/gorilla/handlers"
@@ -16,16 +17,17 @@ import (
 
 func main() {
 	router := mux.NewRouter()
-	router.HandleFunc("/", GenerateDicewarePassword).Methods("GET")
+	router.HandleFunc("/{lang}", GenerateDicewarePassword).Methods("GET")
 	http.ListenAndServe(":"+os.Getenv("PORT"), handlers.LoggingHandler(os.Stdout, router))
 }
 
 func GenerateDicewarePassword(w http.ResponseWriter, r *http.Request) {
+	var lang = mux.Vars(r)["lang"]
 	var password = ""
 
 	for i := 1; i <= 6; i++ {
 		index := findDicewareWordIndex()
-		word := findDicewareWord(index)
+		word := findDicewareWord(index, lang)
 		password = password + word + " "
 	}
 
@@ -54,11 +56,11 @@ func throwDice() int {
 	return number
 }
 
-func findDicewareWord(number string) string {
-	file, err := os.Open("diceware_words/" + number + ".txt")
+func findDicewareWord(number string, lang string) string {
+	file, err := os.Open("diceware_words_" + lang + "/" + number + ".txt")
 
 	if err != nil {
-		log.Fatal(err)
+		return ""
 	}
 	defer file.Close()
 
@@ -70,24 +72,24 @@ func findDicewareWord(number string) string {
 	return ""
 }
 
-// func createWordsFiles() {
-// 	file, err := os.Open("diceware_words.txt")
+func createWordsFiles() {
+	file, err := os.Open("diceware_words_pt.txt")
 
-// 	if err != nil {
-// 		log.Fatal(err)
-// 	}
-// 	defer file.Close()
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer file.Close()
 
-// 	scanner := bufio.NewScanner(file)
+	scanner := bufio.NewScanner(file)
 
-// 	for scanner.Scan() {
-// 		words := strings.Fields(scanner.Text())
-// 		f, _ := os.Create("diceware_words/" + words[0] + ".txt")
-// 		f.WriteString(words[1])
-// 		f.Sync()
-// 	}
+	for scanner.Scan() {
+		words := strings.Fields(scanner.Text())
+		f, _ := os.Create("diceware_words_pt/" + words[0] + ".txt")
+		f.WriteString(words[1])
+		f.Sync()
+	}
 
-// 	if err := scanner.Err(); err != nil {
-// 		log.Fatal(err)
-// 	}
-// }
+	if err := scanner.Err(); err != nil {
+		log.Fatal(err)
+	}
+}
