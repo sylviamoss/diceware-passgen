@@ -2,24 +2,35 @@ package main
 
 import (
 	"bufio"
-	"fmt"
+	"encoding/json"
 	"log"
 	"math/rand"
+	"net/http"
 	"os"
 	"strconv"
+	"time"
+
+	"github.com/gorilla/handlers"
+	"github.com/gorilla/mux"
 )
 
 func main() {
+	router := mux.NewRouter()
+	router.HandleFunc("/generate", GenerateDicewarePassword).Methods("GET")
+	http.ListenAndServe(":"+os.Getenv("PORT"), handlers.LoggingHandler(os.Stdout, router))
+}
+
+func GenerateDicewarePassword(w http.ResponseWriter, r *http.Request) {
 	var password = ""
 
 	for i := 1; i <= 6; i++ {
 		index := findDicewareWordIndex()
-		fmt.Println(index)
 		word := findDicewareWord(index)
-		password = password + word
+		password = password + word + " "
 	}
 
-	fmt.Println("Your six word password: " + password)
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(password)
 }
 
 func findDicewareWordIndex() string {
@@ -33,15 +44,17 @@ func findDicewareWordIndex() string {
 func throwDice() int {
 	var number = 0
 
+	randSource := rand.NewSource(time.Now().UnixNano())
+	randomGen := rand.New(randSource)
+
 	for number == 0 {
-		number = rand.Intn(6)
+		number = randomGen.Intn(6)
 	}
 
 	return number
 }
 
 func findDicewareWord(number string) string {
-	fmt.Println(number)
 	file, err := os.Open("diceware_words/" + number + ".txt")
 
 	if err != nil {
