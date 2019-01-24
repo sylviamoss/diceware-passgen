@@ -55,7 +55,7 @@ func throwDice() int {
 }
 
 func findDicewareWord(number string) string {
-	file, err := os.Open("diceware_words/" + number + ".txt")
+	file, err := os.Open(".diceware_words/" + number + ".txt")
 
 	if err != nil {
 		log.Fatal(err)
