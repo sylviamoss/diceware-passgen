@@ -16,7 +16,7 @@ import (
 
 func main() {
 	router := mux.NewRouter()
-	router.HandleFunc("/generate", GenerateDicewarePassword).Methods("GET")
+	router.HandleFunc("/", GenerateDicewarePassword).Methods("GET")
 	http.ListenAndServe(":"+os.Getenv("PORT"), handlers.LoggingHandler(os.Stdout, router))
 }
 
