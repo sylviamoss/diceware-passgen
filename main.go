@@ -15,6 +15,11 @@ import (
 	"github.com/gorilla/mux"
 )
 
+type PasswordResponse struct {
+	Words    string `json:"words"`
+	Password string `json:"password"`
+}
+
 func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/{lang}", GenerateDicewarePassword).Methods("GET")
@@ -24,15 +29,19 @@ func main() {
 func GenerateDicewarePassword(w http.ResponseWriter, r *http.Request) {
 	var lang = mux.Vars(r)["lang"]
 	var password = ""
+	var response PasswordResponse
 
 	for i := 1; i <= 6; i++ {
 		index := findDicewareWordIndex()
 		word := findDicewareWord(index, lang)
-		password = password + word
+		password = password + word + " "
 	}
 
+	response.Words = password
+	response.Password = strings.TrimSpace(password)
+
 	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(password)
+	json.NewEncoder(w).Encode(response)
 }
 
 func findDicewareWordIndex() string {
