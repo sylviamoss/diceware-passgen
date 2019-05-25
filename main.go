@@ -35,7 +35,7 @@ func GenerateDicewarePassword(w http.ResponseWriter, r *http.Request) {
 	for i := 1; i <= 6; i++ {
 		index := findDicewareWordIndex()
 		word := findDicewareWord(index, lang)
-		words = password + word + " "
+		words = words + word + " "
 		password = password + word
 	}
 
