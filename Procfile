@@ -1,1 +1,0 @@
-web: diceware-passgen && cd frontend && npm run build
