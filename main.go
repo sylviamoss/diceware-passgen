@@ -22,11 +22,12 @@ type PasswordResponse struct {
 
 func main() {
 	router := mux.NewRouter()
-	// buildHandler := http.FileServer(http.Dir("frontend/build/"))
-	// router.PathPrefix("/").Handler(buildHandler)
 
 	api := router.PathPrefix("/api").Subrouter()
 	api.HandleFunc("/{lang}", GenerateDicewarePassword).Methods("GET")
+
+	buildHandler := http.FileServer(http.Dir("frontend/build/"))
+	router.PathPrefix("/").Handler(buildHandler)
 	http.ListenAndServe(":"+os.Getenv("PORT"), handlers.LoggingHandler(os.Stdout, router))
 }
 
