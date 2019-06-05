@@ -1,26 +1,27 @@
 import React from 'react';
-import logo from './logo.svg';
+import PasswordFields, { Words } from './PasswordFields';
 import './App.css';
 
-const App: React.FC = () => {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  state = {
+    isPasswordOpen: false,
+    words: {
+      plain: "",
+      password: ""
+    }
+  }
+  render() {
+    return (
+      <div className="App">
+        <div className="App-header">
+          <PasswordFields
+            isOpen={this.state.isPasswordOpen}
+            words={this.state.words}
+          />
+        </div>
+      </div>
+    );
+  }
 }
 
 export default App;
