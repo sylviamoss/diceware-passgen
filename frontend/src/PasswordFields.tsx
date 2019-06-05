@@ -1,4 +1,5 @@
 import React from 'react';
+import CopyToClipboard from 'react-copy-to-clipboard'
 import './PasswordFields.css';
 
 export interface Pass {
@@ -11,22 +12,36 @@ type PasswordFieldsProps = {
     pass: Pass
 }
 
-const PasswordFields: React.FC<PasswordFieldsProps> = ({ isOpen, pass }) => {
-    if (isOpen) {
-        return (
-            <div className="password-fields">
-                <div className="field" >
-                    <input className="form-control" value={pass.words} readOnly></input>
-                    <button type="button" className="btn btn-outline-warning">copy</button>
-                </div>
-                <div className="field" >
-                    <input className="form-control" value={pass.password} readOnly></input>
-                    <button type="button" className="btn btn-outline-warning">copy</button>
-                </div>
-            </div>
-        )
+class PasswordFields extends React.Component<PasswordFieldsProps> {
+    state = {
+        words: "",
+        password: ""
     }
-    return null
+
+    render() {
+        const { isOpen, pass } = this.props
+
+        if (isOpen) {
+            return (
+                <div className="password-fields">
+                    <div className="field" >
+                        <input className="form-control" value={pass.words} readOnly/>
+                        <CopyToClipboard text={pass.words}>
+                            <button type="button" className="btn btn-outline-warning">copy</button>
+                        </CopyToClipboard>
+
+                    </div>
+                    <div className="field" >
+                        <input className="form-control" value={pass.password} readOnly/>
+                        <CopyToClipboard text={pass.password}>
+                            <button type="button" className="btn btn-outline-warning">copy</button>
+                        </CopyToClipboard>
+                    </div>
+                </div>
+            )
+        }
+        return null
+    }
 }
 
 export default PasswordFields;
