@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"crypto/rand"
 	"encoding/json"
-	"fmt"
 	"log"
 	"math/big"
 	"net/http"
@@ -61,7 +60,6 @@ func findDicewareWordIndex() string {
 	for j := 1; j <= 5; j++ {
 		number = number + strconv.FormatInt(throwDice(), 10)
 	}
-	fmt.Println("number: " + number)
 	return number
 }
 

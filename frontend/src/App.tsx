@@ -5,7 +5,6 @@ import './App.css';
 
 class App extends React.Component {
   state = {
-    isPasswordOpen: false,
     pass: {
       words: "",
       password: ""
@@ -29,7 +28,6 @@ class App extends React.Component {
       <div className="App">
         <div className="App-header">
           <PasswordFields
-            isOpen={this.state.isPasswordOpen}
             pass={this.state.pass}
           />
           <LangSelector
