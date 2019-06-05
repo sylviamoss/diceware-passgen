@@ -1,8 +1,15 @@
 import React from 'react';
 import PasswordFields, { Words } from './PasswordFields';
+import LangSelector from './LangSelector';
 import './App.css';
 
 class App extends React.Component {
+
+  constructor(props: any) {
+    super(props)
+
+    this.handleLangSelector = this.handleLangSelector.bind(this)
+  }
   state = {
     isPasswordOpen: false,
     words: {
@@ -10,6 +17,16 @@ class App extends React.Component {
       password: ""
     }
   }
+
+  public handleLangSelector(lang: string) {
+    const words = {
+      plain: "la la la " + lang,
+      password: "lalala" + lang
+    }
+    this.setState({isPasswordOpen: true})
+    this.setState({ words })  
+  }
+
   render() {
     return (
       <div className="App">
@@ -17,6 +34,9 @@ class App extends React.Component {
           <PasswordFields
             isOpen={this.state.isPasswordOpen}
             words={this.state.words}
+          />
+          <LangSelector
+            handleLangSelector={this.handleLangSelector}
           />
         </div>
       </div>
