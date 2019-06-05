@@ -2,14 +2,15 @@ package main
 
 import (
 	"bufio"
+	"crypto/rand"
 	"encoding/json"
+	"fmt"
 	"log"
-	"math/rand"
+	"math/big"
 	"net/http"
 	"os"
 	"strconv"
 	"strings"
-	"time"
 	"unicode"
 
 	"github.com/gorilla/handlers"
@@ -58,19 +59,21 @@ func GenerateDicewarePassword(w http.ResponseWriter, r *http.Request) {
 func findDicewareWordIndex() string {
 	var number = ""
 	for j := 1; j <= 5; j++ {
-		number = number + strconv.Itoa(throwDice())
+		number = number + strconv.FormatInt(throwDice(), 10)
 	}
+	fmt.Println("number: " + number)
 	return number
 }
 
-func throwDice() int {
-	var number = 0
-
-	randSource := rand.NewSource(time.Now().UnixNano())
-	randomGen := rand.New(randSource)
+func throwDice() int64 {
+	var number int64 = 0
 
 	for number == 0 {
-		number = randomGen.Intn(6)
+		nBig, err := rand.Int(rand.Reader, big.NewInt(7))
+		if err != nil {
+			panic(err)
+		}
+		number = nBig.Int64()
 	}
 
 	return number
