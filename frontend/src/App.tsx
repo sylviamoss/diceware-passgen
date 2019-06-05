@@ -1,5 +1,5 @@
 import React from 'react';
-import PasswordFields, { Words } from './PasswordFields';
+import PasswordFields from './PasswordFields';
 import LangSelector from './LangSelector';
 import './App.css';
 
@@ -12,19 +12,17 @@ class App extends React.Component {
   }
   state = {
     isPasswordOpen: false,
-    words: {
-      plain: "",
+    pass: {
+      words: "",
       password: ""
     }
   }
 
   public handleLangSelector(lang: string) {
-    const words = {
-      plain: "la la la " + lang,
-      password: "lalala" + lang
-    }
+    fetch('/api/'+lang)
+    .then(response => response.json())
+    .then(pass => this.setState({ pass }));
     this.setState({isPasswordOpen: true})
-    this.setState({ words })  
   }
 
   render() {
@@ -33,7 +31,7 @@ class App extends React.Component {
         <div className="App-header">
           <PasswordFields
             isOpen={this.state.isPasswordOpen}
-            words={this.state.words}
+            pass={this.state.pass}
           />
           <LangSelector
             handleLangSelector={this.handleLangSelector}
