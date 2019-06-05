@@ -4,18 +4,17 @@ import LangSelector from './LangSelector';
 import './App.css';
 
 class App extends React.Component {
-
-  constructor(props: any) {
-    super(props)
-
-    this.handleLangSelector = this.handleLangSelector.bind(this)
-  }
   state = {
     isPasswordOpen: false,
     pass: {
       words: "",
       password: ""
     }
+  }
+
+  constructor(props: any) {
+    super(props)
+    this.handleLangSelector = this.handleLangSelector.bind(this)
   }
 
   public handleLangSelector(lang: string) {

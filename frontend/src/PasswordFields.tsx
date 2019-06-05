@@ -29,7 +29,6 @@ class PasswordFields extends React.Component<PasswordFieldsProps> {
                         <CopyToClipboard text={pass.words}>
                             <button type="button" className="btn btn-outline-warning">copy</button>
                         </CopyToClipboard>
-
                     </div>
                     <div className="field" >
                         <input className="form-control" value={pass.password} readOnly/>
