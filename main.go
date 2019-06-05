@@ -10,9 +10,13 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"unicode"
 
 	"github.com/gorilla/handlers"
 	"github.com/gorilla/mux"
+	"golang.org/x/text/runes"
+	"golang.org/x/text/transform"
+	"golang.org/x/text/unicode/norm"
 )
 
 type PasswordResponse struct {
@@ -83,7 +87,10 @@ func findDicewareWord(number string, lang string) string {
 	scanner := bufio.NewScanner(file)
 
 	for scanner.Scan() {
-		return scanner.Text()
+		word := scanner.Text()
+		t := transform.Chain(norm.NFD, runes.Remove(runes.In(unicode.Mn)), norm.NFC)
+		transformedWord, _, _ := transform.String(t, word)
+		return transformedWord
 	}
 	return ""
 }
