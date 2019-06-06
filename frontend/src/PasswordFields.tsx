@@ -1,5 +1,6 @@
 import React from 'react';
 import CopyToClipboard from 'react-copy-to-clipboard'
+import { FaCopy } from 'react-icons/fa';
 import './PasswordFields.css';
 
 export interface Pass {
@@ -25,13 +26,17 @@ class PasswordFields extends React.Component<PasswordFieldsProps> {
                 <div className="field" >
                     <input className="form-control" value={pass.words} readOnly />
                     <CopyToClipboard text={pass.words}>
-                        <button type="button" className="btn btn-outline-warning">copy</button>
+                        <button type="button" className="btn btn-outline-warning">
+                            <FaCopy /> copy
+                        </button>
                     </CopyToClipboard>
                 </div>
                 <div className="field" >
                     <input className="form-control" value={pass.password} readOnly />
                     <CopyToClipboard text={pass.password}>
-                        <button type="button" className="btn btn-outline-warning">copy</button>
+                        <button type="button" className="btn btn-outline-warning">
+                            <FaCopy /> copy
+                        </button>
                     </CopyToClipboard>
                 </div>
             </div>

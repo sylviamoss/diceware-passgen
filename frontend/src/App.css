@@ -22,3 +22,24 @@
 .App-link {
   color: #61dafb;
 }
+
+.dice-icon-provider {
+  margin: 5% 2%;
+}
+
+.dice-icons {
+  width: 50%;
+}
+
+.dice-icon {
+  animation: dice-icon-spin infinite 10s linear;
+}
+
+@keyframes dice-icon-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
