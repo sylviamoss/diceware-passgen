@@ -29,7 +29,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <div className="App-header">
-          <IconContext.Provider value={{ size: "3em", color: "whitesmoke", className: "dice-icon-provider" }}>
+          <IconContext.Provider value={{ size: "2.5em", color: "whitesmoke", className: "dice-icon-provider" }}>
             <div className="dice-icons">
               <FaDiceOne className="dice-icon"/>
               <FaDiceTwo className="dice-icon"/>
